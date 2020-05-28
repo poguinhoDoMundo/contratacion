@@ -1,0 +1,14 @@
+C:\providersBank\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.deps.json
+C:\providersBank\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.runtimeconfig.json
+C:\providersBank\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.runtimeconfig.dev.json
+C:\providersBank\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.dll
+C:\providersBank\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.pdb
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.csprojAssemblyReference.cache
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.csproj.CoreCompileInputs.cache
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorAssemblyInfo.cache
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorAssemblyInfo.cs
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.AssemblyInfoInputs.cache
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.AssemblyInfo.cs
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorTargetAssemblyInfo.cache
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.dll
+C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.pdb
