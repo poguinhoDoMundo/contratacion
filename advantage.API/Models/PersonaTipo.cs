@@ -70,11 +70,15 @@ namespace advantage.API.Models
         {
             List<PersonaTipo> result = new List<PersonaTipo>(); 
 
-            using ( providersBankContext prC = new providersBankContext() )
+            try 
             {
-                result = prC.PersonaTipo.FromSql( "SELECT * FROM pbank.persona_tipo" ).ToList();
+                using ( providersBankContext prC = new providersBankContext() )
+                {
+                    result = prC.PersonaTipo.FromSql( "SELECT * FROM pbank.persona_tipo" ).ToList();
+                }
             }
-
+            catch{}
+            
             return result;
         }
 

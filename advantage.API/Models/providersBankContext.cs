@@ -21,6 +21,10 @@ namespace advantage.API.Models
 
         public DbSet<OrganizacionMain> OrganizacionMain {get;set;}
 
+        public DbSet<vDocumento> vDocumento{get;set;}
+
+        public DbSet<vDocumentosPersona> vDocumentosPersona{get;set;}
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql("Server=localhost;Port=1521;Database=providersBank;User Id=pDev;Password=asiDoCma2006;Search Path=pbank,public; Integrated Security=true;Pooling=true;");
 

@@ -1,0 +1,7 @@
+.custom-dropzone {
+	height: 50px;
+	background: #c2c2c2;
+	color: #fff;
+	border: 2px dashed gray;
+	border-radius: 5px;
+}

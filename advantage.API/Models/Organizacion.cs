@@ -71,10 +71,14 @@ namespace advantage.API.Models
         {
             List<OrganizacionMain> organizacionMain = new List<OrganizacionMain>();
 
-            using ( providersBankContext prC = new providersBankContext() )
+            try
             {
-                organizacionMain = prC.OrganizacionMain.FromSql<OrganizacionMain>("SELECT * FROM pbank.organizacion").ToList();
+                using ( providersBankContext prC = new providersBankContext() )
+                {
+                    organizacionMain = prC.OrganizacionMain.FromSql<OrganizacionMain>("SELECT * FROM pbank.organizacion").ToList();
+                }
             }
+            catch{}
 
             return organizacionMain;
         }

@@ -11,7 +11,7 @@ namespace advantage.API.Controllers
         [HttpPost]
         public IActionResult Post( [FromBody] Documento documento )
         {
-            string result = Documento.add_documento(documento, "dev");            
+            var result = Documento.add_documento(documento, "dev");            
             return Ok( Json(result));
         }
 

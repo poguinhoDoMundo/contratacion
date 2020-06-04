@@ -14,6 +14,9 @@ namespace advantage.API.Models
         public decimal id_organizacion { get; set; }
         public string nombre { get; set; }
 
+
+
+
         public static string add_documento( Documento documento, string usuario )
         {
             string result = "";   
