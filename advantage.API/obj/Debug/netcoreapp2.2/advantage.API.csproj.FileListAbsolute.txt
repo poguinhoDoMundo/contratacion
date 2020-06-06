@@ -12,3 +12,17 @@ C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.AssemblyInf
 C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorTargetAssemblyInfo.cache
 C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.dll
 C:\providersBank\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.pdb
+C:\WEB API\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.deps.json
+C:\WEB API\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.runtimeconfig.json
+C:\WEB API\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.runtimeconfig.dev.json
+C:\WEB API\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.dll
+C:\WEB API\advantage.API\bin\Debug\netcoreapp2.2\advantage.API.pdb
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.csprojAssemblyReference.cache
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.csproj.CoreCompileInputs.cache
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorAssemblyInfo.cache
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorAssemblyInfo.cs
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.AssemblyInfoInputs.cache
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.AssemblyInfo.cs
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.RazorTargetAssemblyInfo.cache
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.dll
+C:\WEB API\advantage.API\obj\Debug\netcoreapp2.2\advantage.API.pdb

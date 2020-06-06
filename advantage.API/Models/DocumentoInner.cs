@@ -122,7 +122,15 @@ namespace advantage.API.Models
         {
             List<vDocumentosPersona> docs = new List<vDocumentosPersona>();
 
-            string sql = "SELECT di.id, u.id id_doc, d.nombre nom_doc, di.nombre nom_docs  "
+            string sql = "SELECT di.id, d.id id_doc, d.nombre nom_doc, di.nombre nom_docs,  "
+                       + "CASE di.id "
+                       + "      WHEN (  SELECT MIN( di1.id ) "
+                       + "              FROM   pbank.documento_inner di1 "
+                       + "              INNER JOIN pbank.documento d1 ON d1.id = di1.id_documento "
+                       + "              WHERE d.id = d1.id  ) " 
+                       + "        THEN '0' "
+                       + "         ELSE '1' "
+                       + "      END print, di.ayuda, u.id id_persona "
                        + "FROM pbank.documento d "
                        + "INNER JOIN pbank.documento_inner di ON d.id = di.id_documento "
                        + "INNER JOIN pbank.usuario u on u.id_persona = d.id_tipo "
@@ -167,6 +175,11 @@ namespace advantage.API.Models
 
         public string nom_docs{get;set;}
 
+        public string print {get;set;}
+
+        public string ayuda {get;set;}
+
+        public int id_persona {get;set;}
     }
 
 

@@ -12236,11 +12236,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\providersBank\\advantage.API\\advantage.API.csproj",
+      "projectUniqueName": "C:\\WEB API\\advantage.API\\advantage.API.csproj",
       "projectName": "advantage.API",
-      "projectPath": "C:\\providersBank\\advantage.API\\advantage.API.csproj",
+      "projectPath": "C:\\WEB API\\advantage.API\\advantage.API.csproj",
       "packagesPath": "C:\\Users\\Diego\\.nuget\\packages\\",
-      "outputPath": "C:\\providersBank\\advantage.API\\obj\\",
+      "outputPath": "C:\\WEB API\\advantage.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

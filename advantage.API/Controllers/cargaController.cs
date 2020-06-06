@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Net.Http.Headers;
+using advantage.API.Models;
 
 namespace advantage.API.Controllers
 {
@@ -10,8 +11,8 @@ namespace advantage.API.Controllers
     public class cargaController:Controller
     {
 
-        [HttpPost,DisableRequestSizeLimit]
-        public IActionResult post()
+        [HttpPost("postPdf"),DisableRequestSizeLimit]        
+        public IActionResult postPdf()
         {
             try
                 {
@@ -42,6 +43,25 @@ namespace advantage.API.Controllers
                     return StatusCode(500, $"Error interno del servidor: {ex}");
                 }
         }
+
+
+        [HttpPost]
+        public IActionResult post( [FromBody] Carga carga ) 
+        {
+            string result = Carga.add_carga(carga);    
+            return Ok( Json(result) );
+        }
+
+    	[HttpGet("hasRevision/{user}/{docs}")]
+        public IActionResult hasRevision( int user, int docs )
+        {
+            bool result  = Carga.hasRevision(user,docs, out string msg);   
+            if ( msg != "OK" )
+                return Ok(Json(msg));
+
+            return Ok(Json(result));
+        }
+
 
     }
 }
