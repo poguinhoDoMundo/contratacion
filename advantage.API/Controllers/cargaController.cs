@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net.Http.Headers;
 using advantage.API.Models;
+using System.Collections.Generic;
 
 namespace advantage.API.Controllers
 {
@@ -60,6 +61,17 @@ namespace advantage.API.Controllers
                 return Ok(Json(msg));
 
             return Ok(Json(result));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult get( int id )
+        {
+            List<vCarga> result = vCarga.getVCarga( id, out string msg  );
+
+            if ( msg != "OK" )
+                return Ok(Json(msg) );
+
+            return Ok( result );
         }
 
 

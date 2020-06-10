@@ -20,7 +20,9 @@ namespace advantage.API.Models
         {
             List<vDocumento> documentos = new List<vDocumento>();
             string sql = "SELECT NEXTVAL('pbank.tmp') id ,d.id id_doc, d.nombre nombre_doc, di.nombre nombre_docs "
+                           + ", pt.nombre nombre_per   " 
                            + "FROM   pbank.documento d "
+                           + "INNER JOIN pbank.persona_tipo pt on pt.id = d.id_tipo "
                            + "LEFT JOIN pbank.documento_inner di on di.id_documento = d.id ";    
 
             try
@@ -164,6 +166,7 @@ namespace advantage.API.Models
         public int id_doc  {get;set;}
         public string nombre_doc {get;set;}
         public string nombre_docs{get;set;}
+        public string nombre_per{get;set;}
     }
 
     public partial class vDocumentosPersona
@@ -181,6 +184,4 @@ namespace advantage.API.Models
 
         public int id_persona {get;set;}
     }
-
-
 }

@@ -16,7 +16,7 @@ namespace advantage.API.Controllers
         {
            List<vDocumento> documentos = documento_inner.getDocumentos( out string e );     
            if ( e != "OK" )
-                return Ok(e);
+                return Ok( Json(e));
 
            return Ok( documentos);
         }

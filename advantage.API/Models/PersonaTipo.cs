@@ -31,13 +31,15 @@ namespace advantage.API.Models
                                                Direction = ParameterDirection.Output                             
                                                     };
 
-            using ( providersBankContext pBc = new providersBankContext() )
-            {
-                int total = pBc.Database.ExecuteSqlCommand( sql,nI,nO,nN,nA,nM);
-
-                result = Convert.ToString(nM.Value);
-            } 
-            
+            try{
+                using ( providersBankContext pBc = new providersBankContext() )
+                {
+                    
+                    int total = pBc.Database.ExecuteSqlCommand( sql,nI,nO,nN,nA,nM);
+                    result = Convert.ToString(nM.Value);
+                } 
+            }
+            catch{};
             return result;
         }
 

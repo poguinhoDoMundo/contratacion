@@ -6,6 +6,8 @@ namespace advantage.API.Models
 {
     public partial class providersBankContext : DbContext
     {
+
+        public DbSet<vCarga> vCarga{get;set;}      
         public DbSet<scalarInt> scalarInt{get;set;} 
         public  DbSet<Carga> Carga { get; set; }
         public DbSet<Documento> Documento { get; set; }

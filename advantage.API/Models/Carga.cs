@@ -72,7 +72,56 @@ namespace advantage.API.Models
 
             return(result.id==0)?false:true;
         }
+
     }
+
+
+
+    public partial class vCarga
+    {
+
+        public int id {get;set;} 
+        public string nom_docs {get;set;}
+        public string nom_doc{get;set;}
+        public string path{get;set;}
+
+        public string fecha{get;set;}
+        public string nom_estado{get;set;}
+
+        public static List<vCarga>  getVCarga( int id_persona, out string msg )
+        {
+            List<vCarga> carga = new List<vCarga>();    
+
+                string sql = " SELECT c.id, di.nombre nom_docs, "
+	                       + " d.nombre nom_doc, c.path, TO_CHAR(c.fecha,'dd/mm/yyyy') fecha, ec.nombre nom_estado "
+                           + " FROM pbank.carga c "
+                           + " INNER JOIN pbank.estado_carga ec ON c.id_estado = ec.id "
+                           + "  INNER JOIN pbank.documento_inner di ON di.id = c.id_documento "
+                           + " INNER JOIN pbank.documento d ON d.id = di.id_documento "
+                           + " WHERE c.id_usuario = @id_usuario ";
+            
+                NpgsqlParameter ni = new NpgsqlParameter("id_usuario", id_persona);
+            try
+            {
+
+                using ( providersBankContext _ctx = new providersBankContext() ) 
+                {
+                    carga = _ctx.vCarga.FromSql( sql,ni ).ToList();
+                    msg = "OK";
+                }   
+
+            }
+            catch( Exception ex)
+            {
+                msg = ex.Message;
+            }
+
+            return carga;
+        }
+
+    }
+
+
 
     public partial class scalarInt
     {
