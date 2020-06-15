@@ -4,11 +4,14 @@ using System.IO;
 using System.Net.Http.Headers;
 using advantage.API.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace advantage.API.Controllers
 {
 
     [Route("api/[controller]")]
+    [Authorize( AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme ) ]
     public class cargaController:Controller
     {
 

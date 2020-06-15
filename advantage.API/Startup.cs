@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace advantage.API
 {
@@ -31,7 +34,7 @@ namespace advantage.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices( IServiceCollection services)
         {
              _connectionString = Configuration["secretConnectionString"];    
 
@@ -48,10 +51,21 @@ namespace advantage.API
                                                         o.MemoryBufferThreshold = int.MaxValue;
                                                   });
 
-            /*
-            services.AddEntityFrameworkNpgsql().
-                    AddDbContext<providersBankContext>( opt=>opt.UseNpgsql(_connectionString) );
-            */    
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                options =>
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = "yourdomain.com",
+                     ValidAudience = "yourdomain.com",
+                     IssuerSigningKey = new SymmetricSecurityKey(
+                     Encoding.UTF8.GetBytes( Environment.GetEnvironmentVariable("secretKey") ) ) ,
+                     ClockSkew = TimeSpan.Zero
+                 }  );                                      
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +82,7 @@ namespace advantage.API
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc(  routes => routes.MapRoute("default","api/{controller}/{action}/{id?}") );
             
@@ -77,7 +92,6 @@ namespace advantage.API
                     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
                     RequestPath = new PathString("/Resources")
                 });
-
         }
     }
 }

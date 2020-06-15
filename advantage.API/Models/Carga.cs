@@ -121,8 +121,6 @@ namespace advantage.API.Models
 
     }
 
-
-
     public partial class scalarInt
     {
         public int id {get;set;}

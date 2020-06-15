@@ -8,7 +8,10 @@ namespace advantage.API.Models
     {
 
         public DbSet<vCarga> vCarga{get;set;}      
-        public DbSet<scalarInt> scalarInt{get;set;} 
+        public DbSet<scalarInt> scalarInt{get;set;}
+
+        public DbSet<scalarBool> scalarBool{get;set;}
+
         public  DbSet<Carga> Carga { get; set; }
         public DbSet<Documento> Documento { get; set; }
         public DbSet<documento_inner> documento_inner { get; set; }
@@ -29,7 +32,7 @@ namespace advantage.API.Models
         public DbSet<vDocumentosPersona> vDocumentosPersona{get;set;}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql("Server=localhost;Port=1521;Database=providersBank;User Id=pDev;Password=asiDoCma2006;Search Path=pbank,public; Integrated Security=true;Pooling=true;");
+            => optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("connectionString"));
 
 
     }
