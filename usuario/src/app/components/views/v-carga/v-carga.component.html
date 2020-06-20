@@ -1,0 +1,32 @@
+
+
+<div class="accordion" id="accordionExample">
+
+    <div class="card" *ngFor="let doc of carga | groupBy: 'nom_doc'; let i = index;">
+        <div class="card-header" [attr.id]="'heading'+i">
+        <h2 class="mb-0">
+            <button class="btn btn-link" type="button" 
+                    data-toggle="collapse" [attr.data-target]="'#c' + doc.key   + i" 
+                    aria-expanded="true" aria-controls="collapseOne">
+            {{ doc.key  }}
+            </button>
+        </h2>
+        </div>
+
+        <div [attr.id]="'c' +doc.key+ i" class="collapse show" [attr.aria-labelledby]="'heading' + i" 
+        data-parent="#accordionExample">
+        <div class="card-body">
+            <ul *ngFor="let docs of doc.value | groupBy: 'nom_docs'" > 
+                <li> {{ docs.key  }} </li>
+                <ul *ngFor="let info of docs.value"  >
+                    <li>
+                        <a [attr.href]="baseUrl+info.path" target="_blank">
+                            <i class="far fa-file-pdf"></i>
+                        </a> 
+                        Fecha de carga: {{ info.fecha }}, estado del archivo: {{info.nom_estado}}                        
+                    </li>
+                </ul>
+            </ul>                
+        </div>
+    </div>
+</div>

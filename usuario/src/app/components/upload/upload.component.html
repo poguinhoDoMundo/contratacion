@@ -1,14 +1,27 @@
-        
-    <div class="custom-dropzone" ngx-dropzone (change)="onSelect($event)"
-        [accept]="'application/pdf'" [multiple]="false" [expandable]="false" >
-        <ngx-dropzone-label>Arrastra o selecciona tu documento</ngx-dropzone-label>
-    </div>
 
-    <div class="col-md-4">
-        <span class="upload" *ngIf="progress > 0">
-        {{progress}}%
-        </span>
-        <span class="upload" *ngIf="message">
-        {{message}}
-        </span>
+<div>
+    {{docs.nom_docs}}
+        <span *ngIf="docs?.ayuda" >: {{ docs?.ayuda }}</span>
+</div>
+
+<div class="alert alert-info" *ngIf="hasRevision?.value" >
+    El documento se encuentra en revision, en breve recibira un correo para informar sobre su proceso.
+</div>
+
+<div *ngIf="!hasRevision?.value">
+    <div class="container">
+        <div class="custom-dropzone" ngx-dropzone (change)="onSelect($event)"
+            [accept]="'application/pdf'" [multiple]="false" [expandable]="false" >
+            <ngx-dropzone-label>Arrastra o selecciona tu pdf de {{ docs?.nom_docs }} </ngx-dropzone-label>
+        </div>
+
+        <div class="col-md-4">
+            <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+            </span>
+            <span class="upload" *ngIf="message">
+            {{message}}
+            </span>
+        </div>
     </div>
+</div>

@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrl: 'https://localhost:5001/api/',
+  authData:'authData',
+  isAuthorized:'isAuthorized'
 };

@@ -1,6 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ɵCompiler_compileModuleAndAllComponentsAsync__POST_R3__ } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FileItem, HttpClientUploadService } from '@wkoza/ngx-upload';
+
+import { uploadService } from '../../services/uploadService'
+import { Carga } from '../../../Models/Carga';
 
 @Component({
   selector: 'app-upload',
@@ -9,16 +11,21 @@ import { FileItem, HttpClientUploadService } from '@wkoza/ngx-upload';
 })
 export class UploadComponent implements OnInit {
 
-  
   public progress: number;
   public message: string;
+  public hasRevision:any;
   @Output() public onUploadFinished = new EventEmitter();
+  @Input() docs;
 
   files: File[] = [];
 
-  ngOnInit() {    }
-  constructor(private http: HttpClient) { }
-  
+
+  constructor(private http: HttpClient, private _serviceUpload:uploadService) { }
+
+  ngOnInit() {  
+    this.fillRevision();
+  }
+
   onSelect(event) {
 
       if ( this.files.length >= 1 )
@@ -27,7 +34,6 @@ export class UploadComponent implements OnInit {
         return;
       }
 
-      console.log(event);
       this.files.push(...event.addedFiles);
 
       const formData = new FormData();
@@ -36,45 +42,53 @@ export class UploadComponent implements OnInit {
         formData.append("file[]", this.files[i]);
       }
  
-      this.http.post('https://localhost:5001/api/carga', formData, {reportProgress: true, observe: 'events'})
-      .subscribe(event => {
+      this._serviceUpload.subirImagen( formData ).subscribe(event => {
+        
         if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
         else if (event.type === HttpEventType.Response) {
+          let response:any = event.body;
           this.message = 'Upload success.';
           this.onUploadFinished.emit(event.body);
+          
+          let carga:Carga = this.BuildModel( response.dbPath, this.docs.id_persona, this.docs.id );
+          this._serviceUpload.add_carga(carga).subscribe(res=>{
+          let result:any = res;
+          if ( result.value == "OK" ) {
+            alert("Documento cargado correctamente");
+            this.fillRevision();   
+          }
+          else {
+            alert("ha ocurrido un error " + result.value );
+            this.files = null;  
+          }
+          });
         }
       });
+  }
+
+  BuildModel(  ruta, id_usuario, id_docs  ){
+    let carga:Carga = {
+        Id:0,
+        Id_documento:id_docs,
+        Path: ruta,
+        Id_usuario : id_usuario,
+        Id_estado:1
+    }
+
+    return carga;
+  }
+
+  fillRevision(){
+      this._serviceUpload.hasRevision( this.docs.id_persona, this.docs.id).subscribe( res=>{
+            this.hasRevision = res ;
+      });   
 
   }
 
   onRemove(event) {
-      console.log(event);
       this.files.splice(this.files.indexOf(event), 1);
   }
 
 
 }
- 
- /*
-  public uploadFile = (files) => {
-    if (files.length === 0) {
-      return;
-    }
- 
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
-    formData.append('id','3','id');
-
-    this.http.post('https://localhost:5001/api/carga', formData, {reportProgress: true, observe: 'events'})
-      .subscribe(event => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total);
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
-        }
-      });
-  }
-}*/

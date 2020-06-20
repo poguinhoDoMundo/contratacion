@@ -34,7 +34,7 @@ namespace advantage.API.Models
                 return false;
             }
 
-            return true;
+            return result.id;
         }
     }
 

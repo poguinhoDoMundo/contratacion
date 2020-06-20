@@ -1,0 +1,11 @@
+<div class="container margin-container">
+    
+    <div *ngFor="let documento of documentos" >
+      
+        <h6 *ngIf="documento.print==0" class="margin-container" >{{documento.nom_doc}} </h6>           
+            <div class="container">
+                <app-upload [docs]= "documento" ></app-upload>
+            </div>
+    </div>
+
+</div>
