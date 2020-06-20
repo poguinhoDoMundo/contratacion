@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Npgsql;
+
 
 namespace advantage.API.Models
 {
@@ -16,9 +18,11 @@ namespace advantage.API.Models
         public string ayuda { get; set; }
 
 
-        public static List<vDocumento> getDocumentos( out string e  )
+        public static async Task<( List<vDocumento>, string) > getDocumentos(   )
         {
             List<vDocumento> documentos = new List<vDocumento>();
+            string e = "";
+
             string sql = "SELECT NEXTVAL('pbank.tmp') id ,d.id id_doc, d.nombre nombre_doc, di.nombre nombre_docs "
                            + ", pt.nombre nombre_per   " 
                            + "FROM   pbank.documento d "
@@ -30,7 +34,7 @@ namespace advantage.API.Models
                 using (  providersBankContext pBc = new providersBankContext() )
 
 
-                documentos = pBc.vDocumento.FromSql(sql).ToList();
+                documentos =  await pBc.vDocumento.FromSql(sql).ToListAsync();
                 e = "OK";
             }
             catch( Exception ex )
@@ -38,19 +42,19 @@ namespace advantage.API.Models
                 e = ex.Message;
             }
 
-            return documentos; 
+            return (documentos,e); 
         } 
 
 
-        public static List<documento_inner> getDocumentosId( int id,  out string e  )
+        public static async Task<(List<documento_inner>,string)> getDocumentosId( int id  )
         {
             List<documento_inner> documentos = new List<documento_inner>();
-
+            string e="";
             try
             {
                 using (  providersBankContext pBc = new providersBankContext() )
 
-                documentos = pBc.documento_inner.Where(x=>x.id_documento==id).ToList();
+                documentos = await pBc.documento_inner.Where(x=>x.id_documento==id).ToListAsync();
                 e = "OK";
             }
             catch( Exception ex )
@@ -58,11 +62,11 @@ namespace advantage.API.Models
                 e = ex.Message;
             }
 
-            return documentos; 
+            return (documentos,e); 
         } 
 
 
-        public static string del_documento( int id, string usuario )
+        public static async Task<string> del_documento( int id, string usuario )
         {
             string result = "";   
             NpgsqlParameter pI = new NpgsqlParameter( "iid",id );
@@ -76,7 +80,7 @@ namespace advantage.API.Models
             {
                 using (  providersBankContext pBc = new providersBankContext()  )
                 {
-                    int total = pBc.Database.ExecuteSqlCommand(sql, pI, pU, pM );   
+                    int total = await pBc.Database.ExecuteSqlCommandAsync(sql, pI, pU, pM );   
                     result = Convert.ToString( pM.Value);
                 }
             }
@@ -89,7 +93,7 @@ namespace advantage.API.Models
         }
 
 
-        public static string add_documentos( documento_inner documento, string responsable )
+        public static async Task<string> add_documentos( documento_inner documento, string responsable )
         {
             string result = "";
             string sql = "SELECT pbank.documentos_add( @iid, @inombre, @iid_documento, @iayuda, " 
@@ -107,7 +111,7 @@ namespace advantage.API.Models
             {
                 using (  providersBankContext prb = new providersBankContext()  )
                 {
-                    int total = prb.Database.ExecuteSqlCommand( sql,nO,nN,nD,nA,nU,nM );
+                    int total = await prb.Database.ExecuteSqlCommandAsync( sql,nO,nN,nD,nA,nU,nM );
                     result = Convert.ToString(nM.Value);
                 }
             }
@@ -120,10 +124,10 @@ namespace advantage.API.Models
         }
 
 
-        public static List<vDocumentosPersona> GetDocumentosPersonas( int id_persona, out string ex)
+        public static async Task<(List<vDocumentosPersona>,string)> GetDocumentosPersonas( int id_persona)
         {
             List<vDocumentosPersona> docs = new List<vDocumentosPersona>();
-
+            string ex = "";    
             string sql = "SELECT di.id, d.id id_doc, d.nombre nom_doc, di.nombre nom_docs,  "
                        + "CASE di.id "
                        + "      WHEN (  SELECT MIN( di1.id ) "
@@ -144,7 +148,7 @@ namespace advantage.API.Models
             {
                 using (  providersBankContext pBc = new providersBankContext() )
                 {
-                     docs = pBc.vDocumentosPersona.FromSql( sql,nP ).ToList(); 
+                     docs = await pBc.vDocumentosPersona.FromSql( sql,nP ).ToListAsync(); 
                      ex = "OK";  
                 }
             }
@@ -153,7 +157,7 @@ namespace advantage.API.Models
                 ex = e.Message;
             }
 
-            return docs;    
+            return (docs,ex);    
         }
 
 

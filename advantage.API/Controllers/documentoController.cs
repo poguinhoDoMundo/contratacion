@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using advantage.API.Models;
+using System.Threading.Tasks;
 
 namespace advantage.API.Controllers
 {
@@ -9,16 +10,17 @@ namespace advantage.API.Controllers
     {
 
         [HttpPost]
-        public IActionResult Post( [FromBody] Documento documento )
+        public async Task<IActionResult> Post( [FromBody] Documento documento )
         {
-            var result = Documento.add_documento(documento, "dev");            
+            var result = await Documento.add_documento(documento, "dev");            
             return Ok( Json(result));
         }
 
         [HttpGet("{id}")]
-        public IActionResult get(int id)
+        public async Task<IActionResult> get(int id)
         {
-            Documento doc = Documento.get(id, out string msg  );
+
+            (Documento doc,string msg) = await Documento.get(id   );
             if ( msg != "OK" )
                 return Ok( Json(msg));
             return Ok(doc);

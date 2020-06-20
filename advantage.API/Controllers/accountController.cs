@@ -21,9 +21,11 @@ namespace WebApiPaises.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login([FromBody] Account account )
+        public async  Task<IActionResult> Login([FromBody] Account account )
         {
-            bool result = Account.is_user( account, out string msg  )  ;
+
+
+            (bool result, string msg) = await Account.is_user( account )  ;
                 if (result)
                 {
                     return Ok(BuildToken( account ));

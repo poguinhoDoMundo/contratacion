@@ -6,6 +6,7 @@ using advantage.API.Models;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Threading.Tasks;
 
 namespace advantage.API.Controllers
 {
@@ -15,6 +16,7 @@ namespace advantage.API.Controllers
     public class cargaController:Controller
     {
 
+        //OJOOOO, NO OLVIDAR CAMBIAR PARA ENCRIPTARLO    
         [HttpPost("postPdf"),DisableRequestSizeLimit]        
         public IActionResult postPdf()
         {
@@ -50,16 +52,18 @@ namespace advantage.API.Controllers
 
 
         [HttpPost]
-        public IActionResult post( [FromBody] Carga carga ) 
+        public async  Task<IActionResult> post( [FromBody] Carga carga ) 
         {
-            string result = Carga.add_carga(carga);    
+            string result = await Carga.add_carga(carga);    
             return Ok( Json(result) );
         }
 
+
     	[HttpGet("hasRevision/{user}/{docs}")]
-        public IActionResult hasRevision( int user, int docs )
+        public async Task<IActionResult> hasRevision( int user, int docs )
         {
-            bool result  = Carga.hasRevision(user,docs, out string msg);   
+            
+            ( bool result, string msg ) = await Carga.hasRevision(user,docs);   
             if ( msg != "OK" )
                 return Ok(Json(msg));
 
@@ -67,16 +71,14 @@ namespace advantage.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult get( int id )
+        public async Task<IActionResult> get( int id )
         {
-            List<vCarga> result = vCarga.getVCarga( id, out string msg  );
+            (List<vCarga> result, string msg) = await vCarga.getVCarga( id  );
 
             if ( msg != "OK" )
                 return Ok(Json(msg) );
 
             return Ok( result );
         }
-
-
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using advantage.API.Models;
 
@@ -12,26 +13,29 @@ namespace advantage.API.Controllers
     {
         
         [HttpPost]
-        public IActionResult Post( [FromBody] PersonaTipo tipo   )
+        public async Task<IActionResult> Post( [FromBody] PersonaTipo tipo   )
         {
             string result="";     
-            result = PersonaTipo.updTipoPersona(tipo);
+            result = await PersonaTipo.updTipoPersona(tipo);
 
             return Ok( Json(result) );
         }
 
         [HttpDelete("{id}")]
-        public IActionResult delete( int id )
+        public async Task<IActionResult> delete( int id )
         {
             string responsable="dev";
-            string result=  PersonaTipo.delTipoPersona(id, responsable);  
+            string result= await PersonaTipo.delTipoPersona(id, responsable);  
             return Ok( Json( result ) );
         } 
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            List<PersonaTipo> data = PersonaTipo.getTipos();    
+            (List<PersonaTipo> data, string msg) = await PersonaTipo.getTipos();    
+            if ( msg != "OK" )
+                return Ok(msg);
+
             return Ok(data);
         }
 

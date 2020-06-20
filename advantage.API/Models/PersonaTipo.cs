@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Threading.Tasks;
 
 using Npgsql;
 
@@ -16,7 +17,7 @@ namespace advantage.API.Models
         public string ayuda { get; set; }
 
 
-        public static string updTipoPersona( PersonaTipo persona  )
+        public static async Task<string> updTipoPersona( PersonaTipo persona  )
         {
             string result="";
             
@@ -35,17 +36,20 @@ namespace advantage.API.Models
                 using ( providersBankContext pBc = new providersBankContext() )
                 {
                     
-                    int total = pBc.Database.ExecuteSqlCommand( sql,nI,nO,nN,nA,nM);
+                    int total = await pBc.Database.ExecuteSqlCommandAsync( sql,nI,nO,nN,nA,nM);
                     result = Convert.ToString(nM.Value);
                 } 
             }
-            catch{};
+            catch(Exception ex)
+            {
+                result = ex.Message;    
+            };
             return result;
         }
 
 
 
-        public static string delTipoPersona(  int id, string responsable  )
+        public static async Task<string> delTipoPersona(  int id, string responsable  )
         {
             string result="";
             
@@ -57,31 +61,42 @@ namespace advantage.API.Models
             NpgsqlParameter nM = new NpgsqlParameter( "msg", DbType.String ){
                                                Direction = ParameterDirection.Output                             
                                                     };
-
-            using ( providersBankContext pBc = new providersBankContext() )
+            try
             {
-                int total = pBc.Database.ExecuteSqlCommand( sql,nI,nR,nM);
+                using ( providersBankContext pBc = new providersBankContext() )
+                {
+                    int total = await pBc.Database.ExecuteSqlCommandAsync( sql,nI,nR,nM);
 
-                result = Convert.ToString(nM.Value);
-            } 
-            
+                    result = Convert.ToString(nM.Value);
+                } 
+            }
+            catch( Exception ex )
+            {
+                result = ex.Message;
+            }
+
             return result;
         }
 
-        public static List<PersonaTipo> getTipos()
+        public static async  Task<(List<PersonaTipo>, string)> getTipos()
         {
             List<PersonaTipo> result = new List<PersonaTipo>(); 
+            string msg="";
 
             try 
             {
                 using ( providersBankContext prC = new providersBankContext() )
                 {
-                    result = prC.PersonaTipo.FromSql( "SELECT * FROM pbank.persona_tipo" ).ToList();
+                    result = await prC.PersonaTipo.FromSql( "SELECT * FROM pbank.persona_tipo" ).ToListAsync();
+                    msg = "OK";
                 }
             }
-            catch{}
+            catch( Exception ex)
+            {
+                msg = ex.Message;
+            }
             
-            return result;
+            return (result,msg);
         }
 
     }

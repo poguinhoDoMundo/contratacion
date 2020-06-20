@@ -5,7 +5,7 @@ using Npgsql;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace advantage.API.Models
 {
@@ -22,11 +22,7 @@ namespace advantage.API.Models
         public string Mail { get; set; }
         public string Cargo { get; set; }
 
-       
-        public Organizacion(  )
-        { }
-
-        public static string addOrganizacion ( Organizacion organizacion  )
+        public static async Task<string> addOrganizacion ( Organizacion organizacion  )
         {           
             string result=""; 
             try
@@ -57,8 +53,7 @@ namespace advantage.API.Models
 
                 using ( providersBankContext prC = new providersBankContext() )
                 {    
-                    int total = prC.Database.ExecuteSqlCommand( sql, pI,pN,pR,pD,pC,pNo,pP,pM,pCa,pO  );
-
+                    int total = await prC.Database.ExecuteSqlCommandAsync( sql, pI,pN,pR,pD,pC,pNo,pP,pM,pCa,pO  );
                     result = Convert.ToString( pO.Value);
                 }
             }
@@ -67,7 +62,7 @@ namespace advantage.API.Models
             return result;
         }
 
-        public static List<OrganizacionMain> getOrganizacionMain()
+        public static async Task<List<OrganizacionMain>> getOrganizacionMain()
         {
             List<OrganizacionMain> organizacionMain = new List<OrganizacionMain>();
 
@@ -75,7 +70,7 @@ namespace advantage.API.Models
             {
                 using ( providersBankContext prC = new providersBankContext() )
                 {
-                    organizacionMain = prC.OrganizacionMain.FromSql<OrganizacionMain>("SELECT * FROM pbank.organizacion").ToList();
+                    organizacionMain = await prC.OrganizacionMain.FromSql<OrganizacionMain>("SELECT * FROM pbank.organizacion").ToListAsync();
                 }
             }
             catch{}

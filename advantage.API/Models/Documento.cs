@@ -4,6 +4,7 @@ using Npgsql;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace advantage.API.Models
 {
@@ -17,7 +18,7 @@ namespace advantage.API.Models
 
 
 
-        public static string add_documento( Documento documento, string usuario )
+        public static async Task<string> add_documento( Documento documento, string usuario )
         {
             string result = "";   
 
@@ -36,7 +37,7 @@ namespace advantage.API.Models
             {
                  using( providersBankContext pBc = new providersBankContext() )
                  {
-                     int total = pBc.Database.ExecuteSqlCommand(sql,pI, pN, pO,pE,pU,pM);
+                     int total = await pBc.Database.ExecuteSqlCommandAsync(sql,pI, pN, pO,pE,pU,pM);
                      result = Convert.ToString( pM.Value) ;
                  }   
             }
@@ -48,9 +49,10 @@ namespace advantage.API.Models
             return result;
         }
 
-        public static Documento get( int id, out string msg )
+        public static async Task<(Documento,string)> get( int id )
         {
             Documento doc= new Documento();    
+            string msg="";
 
             try 
             {
@@ -58,7 +60,7 @@ namespace advantage.API.Models
                 {
                     string sql = "SELECT * FROM pbank.documento WHERE id=@id";
                     NpgsqlParameter nI = new NpgsqlParameter("id",id );
-                    doc = pbc.Documento.FromSql(sql,nI).First();
+                    doc = await pbc.Documento.FromSql(sql,nI).FirstAsync();
                     msg = "OK";
                 }
             }
@@ -67,7 +69,7 @@ namespace advantage.API.Models
                 msg = ex.Message;
             }
 
-             return doc;
+             return (doc,msg);
         }
 
     }

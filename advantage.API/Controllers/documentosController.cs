@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using advantage.API.Models;
-
+using System.Threading.Tasks;
 
 namespace advantage.API.Controllers
 {
@@ -12,9 +12,9 @@ namespace advantage.API.Controllers
 
 
         [HttpGet]
-        public IActionResult get()
+        public async Task<IActionResult> get()
         {
-           List<vDocumento> documentos = documento_inner.getDocumentos( out string e );     
+           (List<vDocumento> documentos, string e) = await documento_inner.getDocumentos();     
            if ( e != "OK" )
                 return Ok( Json(e));
 
@@ -22,9 +22,9 @@ namespace advantage.API.Controllers
         }
 
         [HttpGet("getDocsPersona/{id}")]
-        public IActionResult getDocsPersona( int id )
+        public async Task<IActionResult> getDocsPersona( int id )
         {
-            List<vDocumentosPersona> result = documento_inner.GetDocumentosPersonas(id, out string msg);
+            (List<vDocumentosPersona> result,string msg) = await documento_inner.GetDocumentosPersonas(id );
             
             if ( msg != "OK" )
                 return Ok( Json(msg) );
@@ -34,9 +34,9 @@ namespace advantage.API.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult get( int id )
+        public async Task<IActionResult> get( int id )
         {
-           List<documento_inner> documentos = documento_inner.getDocumentosId( id, out string e );     
+           (List<documento_inner> documentos, string e )= await documento_inner.getDocumentosId( id );     
            if ( e != "OK" )
                 return Ok(Json(e));
 
@@ -44,17 +44,17 @@ namespace advantage.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult post(  [FromBody] documento_inner documento )
+        public async Task<IActionResult> post(  [FromBody] documento_inner documento )
         {
-            string result = documento_inner.add_documentos( documento,"dev" );    
+            string result = await documento_inner.add_documentos( documento,"dev" );    
        
             return Ok( Json(result) );
         }
 
         [HttpDelete("{id}")]
-        public IActionResult delete( int id  )
+        public async Task<IActionResult> delete( int id  )
         {
-            string result = documento_inner.del_documento(id, "dev");
+            string result = await documento_inner.del_documento(id, "dev");
             return Ok(  Json( result));
         }   
 
